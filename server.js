@@ -20,7 +20,15 @@ app.use(app.router);
 app.use(express.logger('dev'))
 
 app.get('/', function (req, res) {
-	res.render('index', { title : 'brock.ly - The Delicious Development Blog by Matt Brock' })
+	res.render('index', {})
+})
+
+app.get('/posts', function (req, res) {
+	res.render('posts', {})
+})
+
+app.get('/about', function (req, res) {
+	res.render('about', {})
 })
 
 var server = app.listen(3000, function() {
