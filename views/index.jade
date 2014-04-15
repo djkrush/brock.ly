@@ -6,4 +6,5 @@ block content
 	- each post in posts
 		include includes/postSnippet
 
-	include includes/pagination
+	- if (posts.length > 5)
+		include includes/pagination
