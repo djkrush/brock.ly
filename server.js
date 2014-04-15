@@ -31,6 +31,21 @@ app.get('/about', function (req, res) {
 	res.render('about', {})
 })
 
+app.get('/rss', function (req, res) {
+  // Only get the latest posts
+  var posts = poet.helpers.getPosts(0, 1);
+  res.setHeader('Content-Type', 'application/rss+xml');
+  res.render('rss', { posts: posts });
+});
+
+app.get('/sitemap.xml', function (req, res) {
+  // Only get the latest posts
+  var postCount = poet.helpers.getPostCount();
+  var posts = poet.helpers.getPosts(0, postCount);
+  res.setHeader('Content-Type', 'application/xml');
+  res.render('sitemap', { posts: posts });
+});
+
 var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);
 });

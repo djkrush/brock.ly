@@ -12,6 +12,7 @@ html(lang='en')
 
 		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
 		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css')
+		link(rel='stylesheet', href='/css/site.css')
 
 		// HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
 		// WARNING: Respond.js doesn't work if you view the page via file:
@@ -33,12 +34,12 @@ html(lang='en')
 					a.navbar-brand(href='/') brock.ly
 				.collapse.navbar-collapse(id='navbarContent')
 					ul.nav.navbar-nav.navbar-right
-						li <a href='/Posts'>Posts</a>
-						li <a href='/About'>About</a>
+						li <a href='/about'>About</a>
 		.container-fluid
 			block content
-		.container-fluid
-				p I'm a <a href='http://jsantell.github.io/poet/'>Poet</a> and I know it.
+		div(id='footer')
+			.container-fluid
+				p.text-muted I'm a <a href='http://jsantell.github.io/poet/'>Poet</a> and I know it.
 
 		script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js')
 		script(src='//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
