@@ -23,20 +23,21 @@ html(lang='en')
 			<![endif]
 
 	body
-		nav.navbar.navbar-default(role='navigation')
+		.wrap
+			nav.navbar.navbar-default(role='navigation')
+				.container-fluid
+					.navbar-header
+						button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbarContent')
+							span.sr-only Toggle navigation
+							span.icon-bar
+							span.icon-bar
+							span.icon-bar
+						a.navbar-brand(href='/') brock.ly
+					.collapse.navbar-collapse(id='navbarContent')
+						ul.nav.navbar-nav.navbar-right
+							li <a href='/about'>About</a>
 			.container-fluid
-				.navbar-header
-					button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbarContent')
-						span.sr-only Toggle navigation
-						span.icon-bar
-						span.icon-bar
-						span.icon-bar
-					a.navbar-brand(href='/') brock.ly
-				.collapse.navbar-collapse(id='navbarContent')
-					ul.nav.navbar-nav.navbar-right
-						li <a href='/about'>About</a>
-		.container-fluid
-			block content
+				block content
 		.footer
 			.container-fluid
 				p.text-muted I'm a <a href='http://jsantell.github.io/poet/'>Poet</a> and I know it.

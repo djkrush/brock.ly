@@ -19,6 +19,8 @@ app.set('view engine', 'jade')
 app.use(express.static(__dirname + '/public'));
 app.use(app.router);
 
+app.use(express.favicon(__dirname + '/public/images/favicon.ico'));
+
 app.use(express.logger('dev'))
 
 app.get('/', function (req, res) {
