@@ -5,37 +5,46 @@
 	"date": "4-14-2014"
 }}}
 
-p Welcome to brock.ly. 
-| This is a software development blog created by me, Matt Brock, using <a href='http://nodejs.org'>Node.js</a> and <a href='http://jsantell.github.io/poet/'>Poet</a>.
-| I wanted to start a blog for a while but I couldn't settle on the technology.
+p Welcome to brock.ly, a software development blog created by me, Matt Brock, using <a href='http://nodejs.org'>Node.js</a> and <a href='http://jsantell.github.io/poet/'>Poet</a>.
+| I wanted to publish a blog for a while so I could keep a journal of the things that I am working on as well as to share solutions to interesting problems that I run into.
+| My requirements are simple...
 
-p
-p Here were my requirements:
-p
+h4 I want to build the site
 
-h4 I want to build it
+p Being a developer, it is no suprise that I want to use my skills to build the site.
+| For some people, this is not a requirement.
+| They would just spin up a blog on one of the many existing blog sites like <a href='https://www.blogger.com/features'>Blogger</a> or <a href='http://wordpress.com/'>WordPress</a> and be done with it.
+| For me, this is an opportunity to build something new and gain some skills in an area that I don't get an opportunity to work in very often.
+| I also really wanted to get a chance to build a site that works on mobile devices as well as desktop browsers.
+| This is the main reason for using <a href='http://getbootstrap.com/'>Bootstrap</a>.
 
-p I am a developer and I want to use my skills to build my blog.
-| For most people, this is not a requirement.
-| They would (and should) just spin up a blog on one of the many existing blog sites like <a href='https://www.blogger.com/features'>Blogger</a> or <a href='http://wordpress.com/'>WordPress</a> and be done with it.
-| Instead, I saw this as an opportunity to build something new and gain some skills in an area that I don't get an opportunity to work in very often.
-| Working with <a href='#'>Node</a>, <a href='#'>Express</a>, <a href='#'>Poet</a>, and <a href='#'>Jade</a> is a nice respit from the day to day work required in my job.
-| In addition, I get a chance to gain some experience building a site that works on mobile devices as well as desktop browsers using <a href='#'>Bootstrap</a>.
+h4 I want to have fun
+
+p I love writing software and learning new things.
+| I often write code in my spare time and now I can add some focus to that effort by blogging about it.
+| One of my favorite languages is JavaScript, so I decided to build the site with <a href='http://nodejs.org'>Node.js</a>, JavaScript server technology that excels in performance and simplicity.
+| Making a Node application a web server is easy with <a href='http://expressjs.com/'>Express</a>, a web framework for Node that is well documented and simple to setup.
+
+h4 I want cheap hosting
+
+p It shouldn't be a major financial committment to keep the blog running.
+| A blog will naturally have a lot of content in the form of posts, but I needed to come up with a "Database Free" solution to manage them. Either the app can't use a database, or the hosting of the database services needs to be free.
+| My friend <a href='http://www.binoot.com/'>Binu</a> suggested that there shouldn't be any issues publishing static content and that it may even make the site more <a href='http://en.wikipedia.org/wiki/Wikipedia:Search_engine_optimization'>SEO</a> friendly.
+| The <a href='http://jsantell.github.io/poet/'>Poet</a> blog framework for Node is great because it works with static content. <a href='http://jsantell.github.io/poet/'>Poet</a> handles the indexing and organization of the content and then exposes it to your Node app through an api.
+| Posts can be written using a variety of templating engines like <a href='http://jade-lang.com/'>Jade</a> and <a href='http://whatismarkdown.com/'>Markdown</a>.
+| As for the hosting providers, I decided to go with <a href='https://www.heroku.com/'>Heroku</a> over <a href='http://aws.amazon.com/'>AWS</a> or <a href='http://azure.microsoft.com/'>Azure</a> because I don't have to provide a credit card and I can keep the site running 24/7 for free
+| (and free is a cheap as it gets <em>-The Tick</em>).
 
 h4 I want to give back to the community
 
-p Sharing information about technology is great, but I always thought it would be cool to share <a href='#'>the blog solution itself</a>.
-| I know this is not a new idea (Ayende did it with <a href='http://ayende.com/blog/4837/and-now-raccoon-blog'>Raccoon Blog</a>) but it is still a great way for me to share a working Node solution and possibly help others get started building their own Node sites.
-| This site is setup to deploy strait from github so anybody interested in how it works can <a href='#'>check it out</a> anytime.
+p I have been fortunate to live and work in the era of the internet.
+| The software development community has done a great job of helping each other solve problems.
+| We sometimes take it for granted how easy it is to find information on the internet about technology and solutions to problems.
+| I want to start helping to contribute to this information sharing with my blog. 
+| Now, sharing information about technology in blog posts is great, but what if the blog site itself was also a shared resource?
+| I know this is not a new idea (Ayende did it with <a href='http://ayende.com/blog/4837/and-now-raccoon-blog'>Raccoon Blog</a>) 
+| but it is an easy way for me to share a working Node solution as an example for others that want to get started building their own Node sites.
+| This site is kept on my github so anybody interested in how it works can <a href='https://github.com/djkrush/brock.ly'>check it out</a> anytime.
 
-//	ol
-//		li I want to build the site, not add a blog to an existing site like 
-//		li I want the site to be cheap to host. That means no database, and no Microsoft (sorry <a href='http://ayende.com/blog/4837/and-now-raccoon-blog'>Raccoon Blog</a>).
-//		li I want to have fun.
-
-//h4 I want to have fun
-
-//p
-//p This last requirement, fun, is really the most important if the project was ever going to get off the ground. 
-
-//p My friend <a href='http://www.binoot.com/'>Binu</a> suggested that I keep the published content static.
+p
+p Well, that's it for now. More to come...
