@@ -8,7 +8,9 @@ var poet = Poet(app, {
   metaFormat: 'json'
 });
 
-poet.init().then(function () {
+poet.watch(function () {
+  // watcher reloaded
+}).init().then(function () {
   // ready to go!
 });
 
