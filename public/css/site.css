@@ -16,11 +16,12 @@ body {
 }
 
 .tags {
-	margin-top:20px;
+	margin-top:10px;
 }
 
 .tags a {
 	text-decoration: none;
+	margin-right: 5px;
 }
 
 .tags a:hover {

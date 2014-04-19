@@ -5,8 +5,8 @@ div.post
 	span.date #{post.date.getMonth()+1}.#{post.date.getDate()}.#{post.date.getFullYear()}
 	div.post.content
 		!= post.preview
-		p
-			a(href=post.url, data-disqus-identifier=post.id).comment-count
+	div.comment-count
+		a(href=post.url, data-disqus-identifier=post.id)
 	div.tags
 		- each tag in post.tags
 			a(href=tagUrl(tag))
