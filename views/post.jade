@@ -3,7 +3,7 @@ extends layout
 block content
   div.post
     h1
-      a(href=post.url)
+      a(href=post.url + '#disqus_thread', data-disqus-identifier=post.id)
         = post.title
     span.date #{post.date.getMonth()+1}.#{post.date.getDate()}.#{post.date.getFullYear()}
     div.post.content
@@ -12,3 +12,5 @@ block content
       - each tag in post.tags
         a(href=tagUrl(tag))
           span.label.label-info #{tag}
+    
+    include includes/disqusComments
