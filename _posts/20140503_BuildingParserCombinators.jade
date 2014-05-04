@@ -1,0 +1,118 @@
+{{{
+	"id": "20140501_BuildingParserCombinators",
+	"title": "Building Parser Combinators",
+	"tags": ["Dsl", "Parser Combinators"],
+	"category": "brock.ly",
+	"date": "5-3-2014"
+}}}
+
+p Domain specific languages (DSLs) are a great way to input complex models into a software system.
+	| They can capture things like workflow rules, expression trees, and commands easier than a standard user interface.
+	| A great example of a this is the Structured Query Language, or <a href="https://en.wikipedia.org/wiki/SQL">SQL</a>.
+	| The early creators of relational databases understood that it is much easier to represent queries in SQL than through a user interface (although it didn't stop some vendors from <a href="http://technet.microsoft.com/en-us/library/ms365414.aspx">building one</a> anyway)
+
+h4 Building a DSL
+
+p Building a dsl is not as hard as it may seem.
+	| There are existing design patterns that focus on this problem and an excellent <a href="http://martinfowler.com/books/dsl.html">book</a> that explains these in detail by Martin Fowler and Rebecca Parsons.
+	| The main components are the lexer and the parser.
+	| Lexers convert an input stream into a sequence of tokens in a process called <a href="https://en.wikipedia.org/wiki/Lexing">lexing</a>.
+	| Parsers take these tokens and generate an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">abstract syntax tree</a> (AST) which is a data structure designed to simplify processing of the data by the interpreting program.
+
+p
+p Using SQL as an example, if the input stream is:
+pre SELECT [FirstName], [LastName] FROM [Users]
+
+p The lexing process might create the following tokens:
+pre [
+	|   { type: 'selectKeyword', value: 'SELECT' },
+	|   { type: 'sqlIdentifier', value: '[FirstName]' },
+	|   { type: 'sqlIdentifier', value: '[LastName]' }
+	|   { type: 'fromKeyword' value: 'FROM' },
+	|   { type: 'sqlIdentifier' value: '[Users]'
+	| ]
+
+p It is important to note that each token has a type and a value.
+	| Parsing these tokens might generate an AST like:
+
+pre
+	| {
+	|   query: {
+	|     operation: "SELECT",
+	|     table: "Users",
+	|     columns": ["FirstName", "LastName"]	
+	|   }
+	| }
+
+p As you can see, both the SQL statement and the AST represent the query, but the AST is much easier
+	| for a database program to process because it has already broken out and assigned the query operation, target table, and columns.
+	| The SQL statement, on the other hand, is much easier for a user to input and
+	| doesn't require knowing anything about the database query data structures.
+	| This decoupling also allows the database data structures to change independently of the SQL specification
+	| and vice versa.
+
+h4 RegEx Table Lexers
+
+p A regular expression table lexer is a type of lexer that uses regular expressions to convert an input stream into tokens.
+	| All regular expressions map to a token type and are stored by priority in a table.
+	| Using our SQL example, we would need to register a token type and expression for the SELECT keyword, the identifiers that represent column and table names, and the FROM keyword.
+	| If we use an array to represent the table, where the priority is inferred by the position in the array,
+	| it would look something like:
+
+pre 
+	| var table = [
+	|   { type: "selectKeyword", expression: /^\bSelect\b/i },
+	|   { type: "fromKeyword", expression: /^\bFrom\b/i },
+	|   { type: "sqlIdentifier", expression: /^\[[^\]]+\]/ }
+	| ];
+
+p The basic algorithm for lexing is to run through all the entries in the table from top to bottom.
+	| When a match is found, those characters are removed from the input stream and converted into tokens.
+	| When there is no more data in the stream, the lexing process is complete and the tokens are returned.
+	| This entire process is sometimes referred to as "tokenizing".
+
+p Lexing some sting input with a regex lexer would look something like:
+pre var tokens = lexer.tokenize(table, 'SELECT [FirstName], [LastName] FROM [Users]');
+
+h4 Parser Combinators
+
+p The <a href="https://en.wikipedia.org/wiki/Parser_combinator">parser combinator</a> is a great DSL design pattern when you don't want to define a complex <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form">BNF</a> grammar to feed parser generators like <a href="https://en.wikipedia.org/wiki/ANTLR">ANTLR</a> or <a href="http://zaach.github.io/jison/">jison</a>.
+	| Other advantages of parser combinators over parser generators is that they are highly testable and lead to a simpler build process due to the fact that they don't require a "generate parser" step that must be run before compiling any dependencies on the parser.	
+
+p The parser combinator is created by combining functional building blocks called combinators.
+	| Each combinator function's input and output type is the same, making them easy to chain and combine together into larger combinators.
+	| The combinator function runs matching logic and generates a result based on whether it matched or not.
+	| If a match is found then an action is called to generate the AST related to the match and the related tokens are removed from further processing.
+	| If a match is not found, then the tokens are not altered so the calling function may try a different match function.
+	| With this design, each combinator is essentially a mini parser.
+	| The main parsing entry point simply takes the tokens and executes the root combinator's match algorithm which in turn passes those onto its dependent combinator's match algorithms and so on.
+
+p The following are combinators commonly used as the base building blocks in this type of parser:
+	ul
+		li <strong>Terminal Symbol Combinator</strong> - Matches when the current token is a specific type
+		li <strong>Sequence Combinator</strong> - Matches when all combinators in a sequence match
+		li <strong>Alternative Combinator</strong> - Matches when any combinators in a sequence match
+		li <strong>Kleene Star Combinator</strong> - Matches a combinator zero times
+		li <strong>Kleene Plus Combinator</strong> - Matches a combinator one or more times
+		li <strong>Optional Combinator</strong> - Matches a combinator or takes a default action when it doesn't match		
+
+p Using the SQL example, we would need the following:
+	ul
+		li Terminal symbol combinator to match the selectKeyword token type
+		li Terminal symbol combinator to match the sqlIdentifier token type
+		li Kleene plus combinator to match one or more sql identifier terminal symbol combinators
+		li Terminal symbol combinator to match the fromKeyword
+
+p Finally, we can parse SELECT statement by creating one final sequence combinator that matches the other combinators in the following order: 
+	ol
+		li Select keyword terminal symbol combinator ("SELECT")
+		li Sql identifier kleene plus combinator ("[FirstName], [LastName]")
+		li From keyword terminal symbol combinator ("FROM")
+		li Sql identifier terminal symbol combinator ("[Users]")
+
+p This final combinator that brings everything together is what I call the "root combinator".
+	| The root combinator is the starting point for the parser.
+	| Parsing the tokens with the root combinator generates the final AST to be used by the interpreting program.
+
+pre var tree = parser.parse(rootCombinator, tokens);
+
